@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>A Little Love Letter ♡</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#ffe8f0,#ffd1df 48%,#fff0f5);
+  font-family:Arial,sans-serif;
+}
+#app{width:100%;height:100vh;position:relative;display:flex;align-items:center;justify-content:center}
+.hidden{display:none!important}
+
+/* ---------- Envelope screen ---------- */
+.envelope-screen{text-align:center;position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.small-note{color:#a64d68;font:16px "Courier New",monospace;margin-top:22px}
+.envelope{
+  position:relative;width:260px;height:175px;cursor:pointer;
+  filter:drop-shadow(0 16px 18px #a9516c35);
+  animation:envelopeFloat 2.2s ease-in-out infinite;
+}
+@keyframes envelopeFloat{50%{transform:translateY(-8px)}}
+.env-body{
+  position:absolute;inset:28px 0 0;background:#f6aeca;border:4px solid #ad5c73;border-radius:7px;z-index:2;
+}
+.env-front{
+  position:absolute;left:0;right:0;bottom:0;height:112px;background:#f3b3c9;
+  clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);z-index:4;
+  border-radius:0 0 6px 6px;
+}
+.env-flap{
+  position:absolute;left:0;top:27px;width:260px;height:125px;background:#f8bfd1;
+  clip-path:polygon(0 0,100% 0,50% 70%);z-index:5;
+  transform-origin:top;transition:transform .7s ease;
+  border-top:4px solid #ad5c73;
+}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.heart-seal{
+  position:absolute;z-index:7;left:50%;top:79px;transform:translateX(-50%);
+  color:#e83d63;font-size:32px;text-shadow:0 3px 5px #9c405855;
+}
+.arrow{
+  position:absolute;z-index:20;font-size:42px;color:#75404f;
+  left:-110px;top:52%;transform:rotate(-8deg);opacity:0;pointer-events:none;
+}
+.arrow.fly{animation:shoot .8s ease-out forwards}
+@keyframes shoot{
+  0%{left:-110px;opacity:0;transform:rotate(-8deg)}
+  15%{opacity:1}
+  100%{left:calc(50% - 22px);top:42%;opacity:1;transform:rotate(-8deg) scale(1.05)}
+}
+.open-hint{
+  margin-top:25px;padding:11px 22px;border:2px solid #b15c73;border-radius:20px;
+  background:#fff6f9;color:#8e3f57;font-weight:bold;
+}
+
+/* ---------- Letter screen ---------- */
+.letter-screen{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{
+  width:min(400px,92vw);padding:24px 18px 22px;text-align:center;
+  border:4px solid #a9556d;border-radius:14px;background:#f7b8cb;
+  box-shadow:0 18px 45px #9e536b35;
+  background-image:linear-gradient(90deg,#fff6 50%,transparent 50%),linear-gradient(#fff6 50%,transparent 50%);
+  background-size:25px 25px;
+}
+.titlebar{
+  margin:-24px -18px 17px;height:40px;background:#f0afc3;border-bottom:3px solid #aa6073;
+  display:flex;align-items:center;justify-content:space-between;padding:0 11px;
+  font:bold 16px "Courier New",monospace;color:#43202c;
+}
+.dots{letter-spacing:6px;color:#a92e4d}
+.message{
+  min-height:65px;margin-bottom:5px;font:bold 20px/1.35 "Courier New",monospace;color:#35131e;
+}
+.message.hiddenText{visibility:hidden}
+.cat{width:175px;height:150px;margin:0 auto 12px;position:relative;animation:bob 1.7s infinite}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.ear{position:absolute;top:3px;width:55px;height:59px;background:#171318;clip-path:polygon(0 100%,0 35%,50% 0,100% 35%,100% 100%)}
+.ear.l{left:21px}.ear.r{right:21px}
+.face{position:absolute;top:38px;left:8px;width:159px;height:96px;background:#171318;clip-path:polygon(8% 0,92% 0,100% 27%,92% 82%,73% 100%,27% 100%,8% 82%,0 27%)}
+.eye{position:absolute;top:58px;width:32px;height:31px;background:white}
+.eye.l{left:36px;clip-path:polygon(0 0,100% 0,100% 65%,70% 65%,70% 100%,0 100%)}
+.eye.r{right:36px;clip-path:polygon(0 0,100% 0,100% 100%,30% 100%,30% 65%,0 65%)}
+.nose{position:absolute;top:87px;left:78px;width:20px;height:14px;background:#ef5b73}
+.catheart{position:absolute;top:101px;left:58px;width:58px;height:50px;background:#f22046;
+clip-path:polygon(50% 100%,0 38%,0 18%,15% 0,35% 0,50% 16%,65% 0,85% 0,100% 18%,100% 38%)}
+.buttons{display:flex;justify-content:center;gap:18px;margin-top:8px}
+button{
+  padding:10px 25px;border:2px solid #b25d71;border-radius:8px;background:#fff8fa;
+  color:#32151e;font-size:17px;font-weight:bold;box-shadow:0 3px #c27a8c;cursor:pointer
+}
+button:active{transform:translateY(2px);box-shadow:0 1px #c27a8c}
+.no-wrap{position:relative;width:78px;height:50px;min-width:78px}
+#no{
+  position:absolute;left:0;top:0;
+  transition:left .22s ease,top .22s ease,transform .22s ease;
+  z-index:10;
+}
+
+/* ---------- Celebration ---------- */
+#celebration{position:fixed;inset:0;pointer-events:none;z-index:100}
+.fly-item{position:absolute;bottom:-60px;font-size:30px;animation:rise 3.2s ease-out forwards}
+@keyframes rise{
+  0%{transform:translateY(0) rotate(0) scale(.5);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-115vh) rotate(360deg) scale(1.15);opacity:0}
+}
+.balloon{
+  width:35px;height:45px;border-radius:50% 50% 45% 45%;position:absolute;bottom:-60px;
+  animation:balloonRise 4.2s ease-out forwards;
+}
+.balloon:after{content:"";position:absolute;width:1px;height:80px;background:#9d6070;left:50%;top:43px}
+@keyframes balloonRise{
+  0%{transform:translateY(0) rotate(-4deg);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-125vh) rotate(8deg);opacity:1}
+}
+.final-line{font:16px "Courier New",monospace;color:#9e2749;margin-top:4px;min-height:24px}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <section id="envelopeScreen" class="envelope-screen">
+    <div class="arrow" id="arrow">➳</div>
+    <div class="envelope" id="envelope" aria-label="Open the letter">
+      <div class="env-body"></div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <div class="heart-seal">♥</div>
+    </div>
+    <div class="open-hint">Tap the envelope 💌</div>
+    <div class="small-note">A little surprise for you ♡</div>
+  </section>
+
+  <section id="letterScreen" class="letter-screen hidden">
+    <div class="card">
+      <div class="titlebar"><span>LOVE</span><span class="dots">♥ ♥ ♥</span></div>
+
+      <!-- This text stays invisible until YES is pressed -->
+      <div id="message" class="message hiddenText">
+        Happy 4 years, my love ♡<br>
+        I love you so much! 💗
+      </div>
+
+      <div class="cat">
+        <div class="ear l"></div><div class="ear r"></div><div class="face"></div>
+        <div class="eye l"></div><div class="eye r"></div><div class="nose"></div>
+        <div class="catheart"></div>
+      </div>
+
+      <div class="buttons">
+        <button id="yes">YES</button>
+        <div class="no-wrap" id="noWrap"><button id="no">NO</button></div>
+      </div>
+      <div id="finalLine" class="final-line"></div>
+    </div>
+  </section>
+</div>
+
+<div id="celebration"></div>
+
+<script>
+const envelope=document.getElementById("envelope");
+const arrow=document.getElementById("arrow");
+const envelopeScreen=document.getElementById("envelopeScreen");
+const letterScreen=document.getElementById("letterScreen");
+const no=document.getElementById("no");
+const noWrap=document.getElementById("noWrap");
+const message=document.getElementById("message");
+const finalLine=document.getElementById("finalLine");
+const celebration=document.getElementById("celebration");
+
+let opened=false, yesClicked=false;
+
+envelope.addEventListener("click",()=>{
+  if(opened)return;
+  opened=true;
+  arrow.classList.add("fly");
+  setTimeout(()=>{
+    envelope.classList.add("open");
+  },700);
+  setTimeout(()=>{
+    envelopeScreen.classList.add("hidden");
+    letterScreen.classList.remove("hidden");
+  },1450);
+});
+
+/* NO does not accept the answer. Each tap sends it to a clearly different corner.
+   It cycles through four positions instead of making tiny random movements. */
+let noStep = 0;
+const noPositions = [
+  {left:"-105px", top:"-92px", rot:"-7deg"},   // top-left
+  {left:"105px",  top:"-92px", rot:"7deg"},    // top-right
+  {left:"-105px", top:"92px",  rot:"-7deg"},   // bottom-left
+  {left:"105px",  top:"92px",  rot:"7deg"}     // bottom-right
+];
+
+function moveNo(){
+  if(yesClicked)return;
+  const p = noPositions[noStep % noPositions.length];
+  no.style.left = p.left;
+  no.style.top = p.top;
+  no.style.transform = "rotate("+p.rot+") scale(1.03)";
+  noStep++;
+}
+
+no.addEventListener("click", moveNo);
+no.addEventListener("touchstart", function(e){
+  e.preventDefault();
+  moveNo();
+}, {passive:false});
+
+/* YES reveals the hidden text and launches lots of hearts + balloons. */
+document.getElementById("yes").addEventListener("click",()=>{
+  if(yesClicked)return;
+  yesClicked=true;
+  message.classList.remove("hiddenText");
+  finalLine.textContent="You said YES! ❤️  Happy 4 years!";
+  no.style.display="none";
+
+  const hearts=["♥","❤","♡","💕","💗","💖"];
+  for(let i=0;i<65;i++){
+    const h=document.createElement("div");
+    h.className="fly-item";
+    h.textContent=hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left=(Math.random()*100)+"vw";
+    h.style.fontSize=(18+Math.random()*25)+"px";
+    h.style.animationDelay=(Math.random()*1.2)+"s";
+    h.style.animationDuration=(2.4+Math.random()*2.2)+"s";
+    celebration.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  }
+
+  for(let i=0;i<18;i++){
+    const b=document.createElement("div");
+    b.className="balloon";
+    b.style.left=(Math.random()*100)+"vw";
+    b.style.width=(27+Math.random()*16)+"px";
+    b.style.height=(36+Math.random()*20)+"px";
+    b.style.background=["#f48aaa","#ef6686","#f8a9c2","#d96c91","#ffbed2"][Math.floor(Math.random()*5)];
+    b.style.animationDelay=(Math.random()*1.3)+"s";
+    b.style.animationDuration=(3.2+Math.random()*2)+"s";
+    celebration.appendChild(b);
+    setTimeout(()=>b.remove(),6500);
+  }
+});
+</script>
+</body>
+</html>
